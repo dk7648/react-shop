@@ -1,14 +1,14 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Nav, Navbar, Container, Row, Col } from "react-bootstrap";
-import { Routes, Route, Link } from 'react-router-dom';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import data from "./data.js";
 import Detail from "./routes/detail.jsx";
 import "./App.css";
 
 function App() {
   let [shoes] = useState(data);
-
+  let navigate = useNavigate();
   return (
     <div className="App">
       
@@ -18,11 +18,11 @@ function App() {
 
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="/">Shop</Navbar.Brand>
+          <Navbar.Brand onClick={()=>{navigate('/')}}>Shop</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/detail">Features</Nav.Link>
-            <Nav.Link href="/about">Pricing</Nav.Link>
+            <Nav.Link onClick={()=>{navigate('/')}}>Home</Nav.Link>
+            <Nav.Link onClick={()=>{navigate('/detail')}}>Detail</Nav.Link>
+            <Nav.Link onClick={()=>{navigate('/about')}}>About</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -42,12 +42,29 @@ function App() {
           </>
         }/>
         <Route path="/detail" element={<Detail/>}/>
-        <Route path="/about" element={<>어바웃 페이지</>}/>
+        <Route path="/about" element={<About/>}>
+          <Route path="member" element={<h4>회사 멤버</h4>}/>
+          <Route path="location" element={<h4>회사 위치</h4>}/>
+        </Route>
+
+        <Route path="/event" element={<div><h4>오늘의 이벤트</h4><Outlet/></div>}>
+          <Route path="one" element={<h4>첫 주문시 양배추즙 서비스</h4>}/>
+          <Route path="two" element={<h4>생일 기념 쿠폰 받기</h4>}/>
+        </Route>
+
+        <Route path="*" element={<>없는 페이지입니다.</>}/>
       </Routes>
     </div>
   );
 }
-
+function About() {
+  return (
+    <div>
+      <h4>회사정보</h4>
+      <Outlet></Outlet>
+    </div>
+  )
+}
 function Card(props) {
   return (
     <Col sm>
