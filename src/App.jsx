@@ -1,8 +1,9 @@
 import { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Nav, Navbar, Container, Row, Col } from "react-bootstrap";
-
+import { Routes, Route, Link } from 'react-router-dom';
 import data from "./data.js";
+import Detail from "./routes/detail.jsx";
 import "./App.css";
 
 function App() {
@@ -10,26 +11,39 @@ function App() {
 
   return (
     <div className="App">
+      
+
+
+
+
       <Navbar bg="dark" data-bs-theme="dark">
         <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Navbar.Brand href="/">Shop</Navbar.Brand>
           <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
+            <Nav.Link href="/">Home</Nav.Link>
+            <Nav.Link href="/detail">Features</Nav.Link>
+            <Nav.Link href="/about">Pricing</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
 
-      <div className="main-bg"></div>
-      <Container>
-        <Row>
-          {shoes.map((target, i) => {
-            return <Card key={i} i={i} shoes={target} />;
-          })}
-        </Row>
-      </Container>
-      <Button variant="primary">Primary</Button>
+      <Routes>
+        <Route path="/" element={
+          <>
+            <div className="main-bg"></div>
+              <Container>
+                <Row>
+                  {shoes.map((target, i) => {
+                    return <Card key={i} i={i} shoes={target} />;
+                  })}
+                </Row>
+              </Container>
+            <Button variant="primary">Primary</Button>
+          </>
+        }/>
+        <Route path="/detail" element={<Detail/>}/>
+        <Route path="/about" element={<>어바웃 페이지</>}/>
+      </Routes>
     </div>
   );
 }
