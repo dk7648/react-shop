@@ -41,7 +41,7 @@ function App() {
             <Button variant="primary">Primary</Button>
           </>
         }/>
-        <Route path="/detail" element={<Detail/>}/>
+        <Route path="/detail/:id" element={<Detail shoes={shoes}/>}/>
         <Route path="/about" element={<About/>}>
           <Route path="member" element={<h4>회사 멤버</h4>}/>
           <Route path="location" element={<h4>회사 위치</h4>}/>
