@@ -1,9 +1,18 @@
 import { useParams } from "react-router-dom";
+import styled from 'styled-components';
+
+let StyledButton = styled.button`
+  background : ${ props => props.bg };
+  color : ${props => props.bg=='blue' ? 'white' : 'black'};
+  padding : 10px;
+`
+
 function Detail(props) {
   let { id } = useParams();
   let target = props.shoes.find((e) => e.id == id)
   return (
     <div className="container">
+      <StyledButton bg="blue">버튼입니다</StyledButton>
       <div className="row">
         <div className="col-md-6">
           <img
