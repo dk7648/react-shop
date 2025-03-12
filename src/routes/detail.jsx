@@ -1,24 +1,32 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 function Detail(props) {
+  let [input, setInput] = useState('');
+  let [Alert, setAlert] = useState(true);
+  let { id } = useParams();
+  let target = props.shoes.find((e) => e.id == id);
+  
   useEffect(() => {
     console.log(1)
     let timer = setTimeout(() => {
       setAlert(false);
     }, 2000)
+    
     return () => {
       console.log(2);
       clearTimeout(timer)
     }
   }, []);
 
-  let [input, setInput] = useState('');
-  let [alert, setAlert] = useState(true);
-  let { id } = useParams();
-  let target = props.shoes.find((e) => e.id == id);
+  useEffect(()=> {
+      if(isNaN(input)) {
+        alert("숫자만 입력하세요")
+      }
+  }, [input])
+
   return (
     <div className="container">
-      {alert ? (
+      {Alert ? (
         <div className="alert alert-warning">2초이내 구매시 할인</div>
       ) : null}
       <div className="row">
@@ -34,8 +42,7 @@ function Detail(props) {
         </div>
         <div className="col-md-6">
           {
-            isNaN(input) ? <p>경고: 숫자만 입력해주세요</p> :
-            <p>{input}</p>
+            
           }
           <input type="text" onChange={(e) => {setInput(e.target.value)}}/>
           <h4 className="pt-5">{target.title}</h4>
