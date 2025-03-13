@@ -5,6 +5,8 @@ function Detail(props) {
   let [input, setInput] = useState("");
   let [Alert, setAlert] = useState(true);
   let [tap, setTap] = useState(0);
+  let [fade, setFade] = useState('')
+
   let { id } = useParams();
   let target = props.shoes.find((e) => e.id == id);
 
@@ -26,8 +28,15 @@ function Detail(props) {
     }
   }, [input]);
 
+  useEffect(() => {
+    let timer = setTimeout(()=>{setFade('end')},10)
+    return () => {
+      setFade('')
+      clearTimeout(timer)
+    }
+  },[props.tap])
   return (
-    <div className="container">
+    <div className={"container start "+fade}>
       {Alert ? (
         <div className="alert alert-warning">2초이내 구매시 할인</div>
       ) : null}
@@ -57,24 +66,55 @@ function Detail(props) {
       </div>
       <Nav variant="tabs" defaultActiveKey="/home">
         <Nav.Item>
-          <Nav.Link eventKey="link0" onClick={()=>{setTap(0)}}>버튼0</Nav.Link>
+          <Nav.Link
+            eventKey="link0"
+            onClick={() => {
+              setTap(0);
+            }}
+          >
+            버튼0
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link1" onClick={()=>{setTap(1)}}>버튼1</Nav.Link>
+          <Nav.Link
+            eventKey="link1"
+            onClick={() => {
+              setTap(1);
+            }}
+          >
+            버튼1
+          </Nav.Link>
         </Nav.Item>
         <Nav.Item>
-          <Nav.Link eventKey="link2" onClick={()=>{setTap(2)}}>버튼2</Nav.Link>
+          <Nav.Link
+            eventKey="link2"
+            onClick={() => {
+              setTap(2);
+            }}
+          >
+            버튼2
+          </Nav.Link>
         </Nav.Item>
       </Nav>
-      <TapContent tap={tap}/>
+      <TapContent tap={tap} />
     </div>
-    
   );
 }
 
 function TapContent(props) {
-    return [<div>내용0</div>,<div>내용1</div>,<div>내용2</div>][props.tap]
+  let [fade, setFade] = useState('')
+  useEffect(() => {
+    let timer = setTimeout(()=>{setFade('end')},10)
+    return () => {
+      setFade('')
+      clearTimeout(timer)
+    }
+  },[props.tap])
+  return (
+    <div className={"start "+fade}>
+      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.tap]}
+    </div>
+  );
 }
-
 
 export default Detail;
