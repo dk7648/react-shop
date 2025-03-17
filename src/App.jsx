@@ -4,6 +4,7 @@ import { Button, Nav, Navbar, Container, Row, Col } from "react-bootstrap";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
 import data from "./data.js";
 import Detail from "./routes/detail.jsx";
+import Cart from "./routes/Cart.jsx";
 import axios from "axios";
 import "./App.css";
 
@@ -48,6 +49,13 @@ function App() {
               }}
             >
               About
+            </Nav.Link>
+            <Nav.Link
+              onClick={() => {
+                navigate("/cart");
+              }}
+            >
+              Cart
             </Nav.Link>
           </Nav>
         </Container>
@@ -110,6 +118,9 @@ function App() {
           <Route path="member" element={<h4>회사 멤버</h4>} />
           <Route path="location" element={<h4>회사 위치</h4>} />
         </Route>
+        
+        <Route path="/cart" element={<Cart/>}/>
+
 
         <Route
           path="/event"
@@ -126,6 +137,8 @@ function App() {
 
         <Route path="*" element={<>없는 페이지입니다.</>} />
       </Routes>
+
+      
     </div>
   );
 }
