@@ -3,7 +3,8 @@ import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
 import { Context1 } from './../App.jsx';//context는 export로 보내고, 사용은 컴포넌트처럼?
-
+import { useDispatch, useSelector } from "react-redux";
+import { push } from "../store/shoesSlice.jsx";
 function Detail(props) {
   let [input, setInput] = useState("");
   let [Alert, setAlert] = useState(true);
@@ -12,6 +13,9 @@ function Detail(props) {
 
   let { id } = useParams();
   let target = props.shoes.find((e) => e.id == id);
+
+  let shoes = useSelector((state) => { return state.shoes})
+  let dispatch = useDispatch();
 
   let {재고} = useContext(Context1)
 
@@ -66,7 +70,7 @@ function Detail(props) {
           <h4 className="pt-5">{target.title}</h4>
           <p>{target.content}</p>
           <p>{target.price}원</p>
-          <button className="btn btn-danger">주문하기</button>
+          <button onClick={()=>{ dispatch(push({id:target.id, name: target.title, count: 1}))}} className="btn btn-danger">주문하기</button>
         </div>
       </div>
       <Nav variant="tabs" defaultActiveKey="/home">
