@@ -108,7 +108,7 @@ function Detail(props) {
 
 function TapContent(props) {
   let [fade, setFade] = useState('')
-  let {재고} = useContext(Context1)
+  let {재고} = useContext(Context1);
   useEffect(() => {
     let timer = setTimeout(()=>{setFade('end')},10)
     return () => {
