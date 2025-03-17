@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Button, Nav, Navbar, Container, Row, Col } from "react-bootstrap";
 import { Routes, Route, Link, useNavigate, Outlet } from "react-router-dom";
@@ -7,8 +7,11 @@ import Detail from "./routes/detail.jsx";
 import axios from "axios";
 import "./App.css";
 
+export let Context1 = createContext();
+
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [재고] = useState([10, 11, 12]);
   let [btnCounter, setBtnCounter] = useState(0);
   console.log(typeof btnCounter);
   let [loading, setLoading] = useState(false);
@@ -95,7 +98,14 @@ function App() {
             </>
           }
         />
-        <Route path="/detail/:id" element={<Detail shoes={shoes} />} />
+        <Route
+          path="/detail/:id"
+          element={
+            <Context1.Provider value={{ 재고}}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
         <Route path="/about" element={<About />}>
           <Route path="member" element={<h4>회사 멤버</h4>} />
           <Route path="location" element={<h4>회사 위치</h4>} />
@@ -130,15 +140,17 @@ function About() {
 function Card(props) {
   return (
     <Col sm>
-      <a href={"/detail/"+props.shoes.id}><img
-        src={
-          "https://codingapple1.github.io/shop/shoes" +
-          (props.shoes.id + 1) +
-          ".jpg"
-        }
-        width="80%"
-      />
-      <h4>{props.shoes.title}</h4></a>
+      <a href={"/detail/" + props.shoes.id}>
+        <img
+          src={
+            "https://codingapple1.github.io/shop/shoes" +
+            (props.shoes.id + 1) +
+            ".jpg"
+          }
+          width="80%"
+        />
+        <h4>{props.shoes.title}</h4>
+      </a>
       <p>{props.shoes.content}</p>
       <p>{props.shoes.price}</p>
     </Col>

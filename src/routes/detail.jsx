@@ -1,6 +1,9 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
+
+import { Context1 } from './../App.jsx';//context는 export로 보내고, 사용은 컴포넌트처럼?
+
 function Detail(props) {
   let [input, setInput] = useState("");
   let [Alert, setAlert] = useState(true);
@@ -9,6 +12,8 @@ function Detail(props) {
 
   let { id } = useParams();
   let target = props.shoes.find((e) => e.id == id);
+
+  let {재고} = useContext(Context1)
 
   useEffect(() => {
     console.log(1);
@@ -103,6 +108,7 @@ function Detail(props) {
 
 function TapContent(props) {
   let [fade, setFade] = useState('')
+  let {재고} = useContext(Context1)
   useEffect(() => {
     let timer = setTimeout(()=>{setFade('end')},10)
     return () => {
@@ -112,6 +118,7 @@ function TapContent(props) {
   },[props.tap])
   return (
     <div className={"start "+fade}>
+      {재고}
       {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.tap]}
     </div>
   );
