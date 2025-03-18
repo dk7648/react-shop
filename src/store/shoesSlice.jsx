@@ -7,19 +7,30 @@ let shoes = createSlice({
     { id: 2, name: "Grey Yordan", count: 1 },
   ],
   reducers: {
-    addCount(state, action) {
-      let src = action.payload
-      let dest = state.find((cur) => { return cur.id == src.id})
-      console.log(dest.id)
-      dest.count += 1;
+    modifyCount(state, action) {
+      let src = action.payload.target;
+      let dest = state.find((cur) => {
+        return cur.id == src.id;
+      });
+      dest.count += action.payload.step;
+      if(dest.count == 0) dest.count+=1
     },
     push(state, action) {
-        let item = action.payload
-        let target = state.find((cur)=>{return cur.id == item.id})
-        target ? target.count += 1 : state.push(item)
-    }
+      let item = action.payload;
+      let target = state.find((cur) => {
+        return cur.id == item.id;
+      });
+      target ? (target.count += 1) : state.push(item);
+    },
+    removeItem(state, action) {
+      let item = action.payload;
+      let targetIndex = state.findIndex((cur) => {
+        return cur.id == item.id;
+      });
+      targetIndex == -1 ? null : state.splice(targetIndex, 1);
+    },
   },
 });
 
-export let { addCount, push } = shoes.actions;
+export let { modifyCount, removeItem, push } = shoes.actions;
 export default shoes;

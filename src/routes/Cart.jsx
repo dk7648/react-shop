@@ -2,7 +2,7 @@ import { Button, Table } from "react-bootstrap";
 
 import { Context1 } from "./../App.jsx"; //context는 export로 보내고, 사용은 컴포넌트처럼?
 import { useDispatch, useSelector } from "react-redux";
-import { addCount } from "../store/shoesSlice.jsx";
+import { modifyCount, removeItem } from "../store/shoesSlice.jsx";
 
 function Cart() {
   let shoes = useSelector((state) => {
@@ -19,6 +19,7 @@ function Cart() {
             <th>상품명</th>
             <th>수량</th>
             <th>변경하기</th>
+            <th>삭제하기</th>
           </tr>
         </thead>
         <tbody>
@@ -30,8 +31,16 @@ function Cart() {
                 <td>{target.count}</td>
                 <td>
                     <button onClick={()=>{
-                        dispatch(addCount(target))
+                        dispatch(modifyCount({target : target, step: 1}))
                     }}>+</button>
+                    <button onClick={()=>{
+                        dispatch(modifyCount({target : target, step: -1}))
+                    }}>-</button>
+                </td>
+                <td>
+                <button onClick={()=>{
+                        dispatch(removeItem(target))
+                    }}>삭제</button>
                 </td>
               </tr>
             );
