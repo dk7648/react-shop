@@ -2,22 +2,19 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
-import { Context1 } from './../App.jsx';//context는 export로 보내고, 사용은 컴포넌트처럼?
-import { useDispatch, useSelector } from "react-redux";
+import { Context1 } from "./../App.jsx"; //context는 export로 보내고, 사용은 컴포넌트처럼?
+import { useDispatch } from "react-redux";
 import { push } from "../store/shoesSlice.jsx";
 function Detail(props) {
   let [input, setInput] = useState("");
   let [Alert, setAlert] = useState(true);
   let [tap, setTap] = useState(0);
-  let [fade, setFade] = useState('')
+  let [fade, setFade] = useState("");
 
   let { id } = useParams();
   let target = props.shoes.find((e) => e.id == id);
 
-  let shoes = useSelector((state) => { return state.shoes})
   let dispatch = useDispatch();
-
-  let {재고} = useContext(Context1)
 
   useEffect(() => {
     console.log(1);
@@ -38,14 +35,25 @@ function Detail(props) {
   }, [input]);
 
   useEffect(() => {
-    let timer = setTimeout(()=>{setFade('end')},10)
+    let timer = setTimeout(() => {
+      setFade("end");
+    }, 10);
     return () => {
-      setFade('')
-      clearTimeout(timer)
-    }
-  },[props.tap])
+      setFade("");
+      clearTimeout(timer);
+    };
+  }, [props.tap]);
+
+  useEffect(() => {
+    //localStorage.removeItem("watched")
+    let watched = localStorage.getItem("watched");
+    watched = watched ? JSON.parse(watched) : [];
+    watched.push(id);
+    localStorage.removeItem("watched");
+    localStorage.setItem("watched", JSON.stringify(watched));
+  }, []);
   return (
-    <div className={"container start "+fade}>
+    <div className={"container start " + fade}>
       {Alert ? (
         <div className="alert alert-warning">2초이내 구매시 할인</div>
       ) : null}
@@ -70,7 +78,14 @@ function Detail(props) {
           <h4 className="pt-5">{target.title}</h4>
           <p>{target.content}</p>
           <p>{target.price}원</p>
-          <button onClick={()=>{ dispatch(push({id:target.id, name: target.title, count: 1}))}} className="btn btn-danger">주문하기</button>
+          <button
+            onClick={() => {
+              dispatch(push({ id: target.id, name: target.title, count: 1 }));
+            }}
+            className="btn btn-danger"
+          >
+            주문하기
+          </button>
         </div>
       </div>
       <Nav variant="tabs" defaultActiveKey="/home">
@@ -111,17 +126,19 @@ function Detail(props) {
 }
 
 function TapContent(props) {
-  let [fade, setFade] = useState('')
-  let {재고} = useContext(Context1);
+  let [fade, setFade] = useState("");
+  let { 재고 } = useContext(Context1);
   useEffect(() => {
-    let timer = setTimeout(()=>{setFade('end')},10)
+    let timer = setTimeout(() => {
+      setFade("end");
+    }, 10);
     return () => {
-      setFade('')
-      clearTimeout(timer)
-    }
-  },[props.tap])
+      setFade("");
+      clearTimeout(timer);
+    };
+  }, [props.tap]);
   return (
-    <div className={"start "+fade}>
+    <div className={"start " + fade}>
       {재고}
       {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.tap]}
     </div>
