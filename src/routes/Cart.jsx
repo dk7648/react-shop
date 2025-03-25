@@ -1,6 +1,5 @@
 import { Button, Table } from "react-bootstrap";
 
-import { Context1 } from "./../App.jsx"; //context는 export로 보내고, 사용은 컴포넌트처럼?
 import { useDispatch, useSelector } from "react-redux";
 import { modifyCount, removeItem } from "../store/shoesSlice.jsx";
 
@@ -9,7 +8,7 @@ function Cart() {
     return state.shoes;
   });
   let dispatch = useDispatch()
-  console.log(shoes)
+  
   return (
     <>
       <Table>

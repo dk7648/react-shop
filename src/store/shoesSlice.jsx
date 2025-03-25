@@ -13,7 +13,10 @@ let shoes = createSlice({
         return cur.id == src.id;
       });
       dest.count += action.payload.step;
-      if(dest.count == 0) dest.count+=1
+      if (dest.count == 0) {
+        dest.count += 1;
+        alert("최소 개수는 1개입니다.")
+      }
     },
     push(state, action) {
       let item = action.payload;

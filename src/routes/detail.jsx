@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Nav } from "react-bootstrap";
 
-import { Context1 } from "./../App.jsx"; //context는 export로 보내고, 사용은 컴포넌트처럼?
 import { useDispatch } from "react-redux";
 import { push } from "../store/shoesSlice.jsx";
 function Detail(props) {
@@ -17,13 +16,11 @@ function Detail(props) {
   let dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(1);
     let timer = setTimeout(() => {
       setAlert(false);
     }, 2000);
 
     return () => {
-      console.log(2);
       clearTimeout(timer);
     };
   }, []);
@@ -47,12 +44,14 @@ function Detail(props) {
   useEffect(() => {
     //localStorage.removeItem("watched")
     let watched = localStorage.getItem("watched");
-    watched = watched ? JSON.parse(watched) : [];
+    watched = JSON.parse(watched)
     watched.push(id);
-    localStorage.removeItem("watched");
+    watched = new Set(watched)
+    watched = Array.from(watched)
     localStorage.setItem("watched", JSON.stringify(watched));
   }, []);
   return (
+    
     <div className={"container start " + fade}>
       {Alert ? (
         <div className="alert alert-warning">2초이내 구매시 할인</div>
@@ -81,6 +80,7 @@ function Detail(props) {
           <button
             onClick={() => {
               dispatch(push({ id: target.id, name: target.title, count: 1 }));
+              alert("장바구니에 담겼습니다.")
             }}
             className="btn btn-danger"
           >
@@ -96,7 +96,7 @@ function Detail(props) {
               setTap(0);
             }}
           >
-            버튼0
+            상품 설명
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -106,7 +106,7 @@ function Detail(props) {
               setTap(1);
             }}
           >
-            버튼1
+            상품 후기
           </Nav.Link>
         </Nav.Item>
         <Nav.Item>
@@ -116,7 +116,7 @@ function Detail(props) {
               setTap(2);
             }}
           >
-            버튼2
+            상세 정보
           </Nav.Link>
         </Nav.Item>
       </Nav>
@@ -127,7 +127,6 @@ function Detail(props) {
 
 function TapContent(props) {
   let [fade, setFade] = useState("");
-  let { 재고 } = useContext(Context1);
   useEffect(() => {
     let timer = setTimeout(() => {
       setFade("end");
@@ -139,8 +138,7 @@ function TapContent(props) {
   }, [props.tap]);
   return (
     <div className={"start " + fade}>
-      {재고}
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][props.tap]}
+      {[<div>상품 설명입니다.</div>, <div>상품 후기입니다.</div>, <div>상세 정보입니다.</div>][props.tap]}
     </div>
   );
 }
