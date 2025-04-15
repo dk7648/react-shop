@@ -4,3 +4,14 @@
 
 ## 개발 기간
 2025/03/08 - 2025/03/25
+
+## 실행 화면
+- index
+![Image](https://github.com/user-attachments/assets/71b0fe4d-b759-4aa7-bb1f-b49b0d5c3d6e)
+
+- detail
+![Image](https://github.com/user-attachments/assets/441498f8-bd8a-4f20-b5f8-1a24230493b2)
+
+- cart
+![Image](https://github.com/user-attachments/assets/9f098aa3-1d3b-4e2d-8d09-b44e9364dd3a)
+
